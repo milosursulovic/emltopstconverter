@@ -23,19 +23,73 @@ namespace EML_to_PST
 
             if (string.IsNullOrEmpty(sourceFolder) || string.IsNullOrEmpty(pstPath))
             {
-                LogMessage("Please select both a source folder and a destination file.");
+                LogMessage("Molimo izaberite i izvorni folder i odredišnu datoteku.");
                 return;
             }
 
-            // Get all EML files in the selected folder
+            // Check if source folder exists
+            if (!Directory.Exists(sourceFolder))
+            {
+                LogMessage("Navedeni izvorni folder ne postoji.");
+                return;
+            }
+
+            // Check if the source folder contains any .eml files
             var emlFiles = Directory.GetFiles(sourceFolder, "*.eml");
+            if (emlFiles.Length == 0)
+            {
+                LogMessage("U navedenom izvornom folderu nisu pronađene EML datoteke.");
+                return;
+            }
+
+            // Check if the output file path is valid
+            if (!Directory.Exists(Path.GetDirectoryName(pstPath)))
+            {
+                LogMessage("Navedena putanja za PST datoteku je nevažeća.");
+                return;
+            }
+
+            // Check if the PST file already exists
+            if (File.Exists(pstPath))
+            {
+                // Check if the PST file already exists
+                if (File.Exists(pstPath))
+                {
+                    var result = MessageBox.Show(
+                        "Navedena PST datoteka već postoji. Da li želite da je zamenite?",
+                        "Datoteka već postoji",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.No)
+                    {
+                        LogMessage("Operacija je otkazana od strane korisnika.");
+                        return;
+                    }
+
+                    try
+                    {
+                        // Attempt to delete the existing file if user agrees to overwrite
+                        File.Delete(pstPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogMessage("Neuspešno brisanje postojeće PST datoteke: " + ex.Message);
+                        return;
+                    }
+                }
+            }
+
             progressBar1.Maximum = emlFiles.Length;
             progressBar1.Value = 0;
-            LogMessage("Starting conversion...");
+            label3.Text = $"0/{emlFiles.Length}";
+            LogMessage("Početak konverzije...");
 
             // Initialize the PST file
             var personalStorage = Aspose.Email.Storage.Pst.PersonalStorage.Create(pstPath, Aspose.Email.Storage.Pst.FileFormatVersion.Unicode);
             var inboxFolder = personalStorage.RootFolder.AddSubFolder("Inbox");
+
+            int convertedCount = 0;
 
             // Loop through each EML file, update the progress bar, and log messages
             foreach (var emlFile in emlFiles)
@@ -46,22 +100,30 @@ namespace EML_to_PST
                     inboxFolder.AddMessage(Aspose.Email.Mapi.MapiMessage.FromMailMessage(mailMessage));
 
                     // Log success for each file and update progress
-                    LogMessage("Converted: " + Path.GetFileName(emlFile));
-                    progressBar1.Value += 1;
+                    LogMessage("Konvertovano: " + Path.GetFileName(emlFile));
+
+                    convertedCount++;
+                    progressBar1.Value = convertedCount;
+                    label3.Text = $"{convertedCount}/{emlFiles.Length}";
                 }
                 catch (Exception ex)
                 {
-                    LogMessage("Error converting " + Path.GetFileName(emlFile) + ": " + ex.Message);
+                    LogMessage("Greška pri konverziji " + Path.GetFileName(emlFile) + ": " + ex.Message);
                 }
             }
 
-            LogMessage("Conversion completed successfully.");
+            LogMessage("Konverzija je uspešno završena.");
         }
 
         // Function to log messages to the text area
         private void LogMessage(string message)
         {
+            // Append the message with a new line
             richTextBox1.AppendText(message + Environment.NewLine);
+            // Set the selection to the end of the text
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            // Scroll to the caret to ensure the latest message is visible
+            richTextBox1.ScrollToCaret();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -79,7 +141,7 @@ namespace EML_to_PST
         {
             using (var saveDialog = new SaveFileDialog())
             {
-                saveDialog.Filter = "PST Files|*.pst";
+                saveDialog.Filter = "PST Datoteke|*.pst";
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     txtPSTPath.Text = saveDialog.FileName;
