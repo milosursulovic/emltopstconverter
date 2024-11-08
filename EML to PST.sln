@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EML to PST", "EML to PST\EML to PST.csproj", "{129A5895-2D65-4727-87BF-80B1CB408587}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{C7311B18-6E02-4085-B5A6-0512C549D01D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{129A5895-2D65-4727-87BF-80B1CB408587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{129A5895-2D65-4727-87BF-80B1CB408587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{129A5895-2D65-4727-87BF-80B1CB408587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7311B18-6E02-4085-B5A6-0512C549D01D}.Debug|Any CPU.ActiveCfg = Debug
+		{C7311B18-6E02-4085-B5A6-0512C549D01D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
