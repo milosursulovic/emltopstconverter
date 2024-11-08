@@ -20,7 +20,7 @@ namespace EML_to_PST
             int formWidth = this.ClientSize.Width;
 
             Label lblTitle = new Label();
-            lblTitle.Text = "EML u PST Konverter";
+            lblTitle.Text = "Konverter EML u PST";
             lblTitle.Font = new Font("Arial", 12, FontStyle.Bold);
             lblTitle.AutoSize = true;
             lblTitle.TextAlign = ContentAlignment.MiddleCenter; // Center text inside the label
@@ -50,6 +50,11 @@ namespace EML_to_PST
             lblDescription.MaximumSize = new Size(250, 0); // Wrap text within 250 pixels
             this.Controls.Add(lblDescription);
             lblDescription.Location = new Point((formWidth - lblDescription.Width) / 2, 140);
+        }
+
+        private void InfoForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

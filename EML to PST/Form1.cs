@@ -11,13 +11,11 @@ namespace EML_to_PST
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
+            // Disable the button to prevent multiple clicks during conversion
+            button1.Enabled = false;
+
             string sourceFolder = txtFolderPath.Text;
             string pstPath = txtPSTPath.Text;
 
@@ -113,6 +111,9 @@ namespace EML_to_PST
             }
 
             LogMessage("Konverzija je uspešno završena.");
+
+            // Re-enable the button after conversion is complete
+            button1.Enabled = true;
         }
 
         // Function to log messages to the text area
