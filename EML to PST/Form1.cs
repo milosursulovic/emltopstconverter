@@ -62,6 +62,7 @@ namespace EML_to_PST
                     if (result == DialogResult.No)
                     {
                         LogMessage("Operacija je otkazana od strane korisnika.");
+                        button1.Enabled = true;
                         return;
                     }
 
