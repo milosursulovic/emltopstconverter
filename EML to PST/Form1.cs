@@ -148,5 +148,12 @@ namespace EML_to_PST
                 }
             }
         }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create an instance of the Info form and show it
+            InfoForm infoForm = new InfoForm();
+            infoForm.ShowDialog(); // Show as a dialog box
+        }
     }
 }
