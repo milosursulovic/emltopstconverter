@@ -9,6 +9,8 @@ namespace EML_to_PST
         public Form1()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // Prevents resizing
+            this.MaximizeBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)

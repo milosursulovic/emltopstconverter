@@ -16,6 +16,9 @@ namespace EML_to_PST
         {
             InitializeComponent();
 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // Prevents resizing
+            this.MaximizeBox = false;
+
             // Form width
             int formWidth = this.ClientSize.Width;
 
@@ -50,11 +53,6 @@ namespace EML_to_PST
             lblDescription.MaximumSize = new Size(250, 0); // Wrap text within 250 pixels
             this.Controls.Add(lblDescription);
             lblDescription.Location = new Point((formWidth - lblDescription.Width) / 2, 140);
-        }
-
-        private void InfoForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
